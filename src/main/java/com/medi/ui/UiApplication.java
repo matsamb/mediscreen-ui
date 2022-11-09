@@ -2,8 +2,10 @@ package com.medi.ui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableFeignClients("com.medi.ui")
 public class UiApplication {
 
 	public static void main(String[] args) {
