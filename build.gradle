@@ -18,30 +18,32 @@ repositories {
 	mavenCentral()
 }
 
-ext {
+/*ext {
 	set('springCloudVersion', "2021.0.5")
-}
+}*/
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation 'org.webjars:bootstrap:5.2.2'
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	//implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.4'	
+	//implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	//implementation 'org.webjars:bootstrap:5.2.2'
+	//implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.boot:spring-boot-actuator:2.7.5'
 	
+	//compileOnly 'org.apache.tomcat:tomcat-catalina:10.1.1'
 	compileOnly 'org.projectlombok:lombok'
-	
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-dependencyManagement {
+/*dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
-}
+}*/
 
 tasks.named('test') {
 	useJUnitPlatform()
