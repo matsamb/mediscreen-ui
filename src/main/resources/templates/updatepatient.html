@@ -53,28 +53,35 @@ body {
 
 <div class="container">
 	<h2>MEDISCREEN APPLICATION</h2>
-
+---------------------------------
 </div>
 <div class="row">
-	<a href="/home"><button class="select" name="home">home</button></a> <a
+	<a href="/home"><button class="select" name="home">home</button></a> 
+	
+<!-- 	<a
 		href="/findreport"><button class="select" name="save-report">find
 			report</button></a> <a href="/savereport"><button class="select"
 			name="save-report">save report</button></a> <a href="/findpatient"><button
 			class="select" name="find-patient">find patient</button></a><a href="/deletepatient"><button class="select"
-			name="delete-patient">delete patient</button></a>
+			name="delete-patient">delete patient</button></a>   -->
 </div>
 
 <body>
 	<form name="savepatient" th:action="@{/updatepatient}" method="post">
 		<div class="container">
+			<h3>patient Id</h3>
+			<input class="inputbox" type="text" th:placeholder="${patientId}"
+				name="patientId" th:value="${patientId}"  required="required" width="30" readonly="readonly">
+		</div>
+		<div class="container">
 			<h3>Family name</h3>
 			<input class="inputbox" type="text" placeholder="enter family name"
-				name="family" required="required" width="30">
+				name="family" th:text="${family}" required="required" width="30">
 		</div>
 		<div class="container">
 			<h3>Given name</h3>
 			<input class="inputbox" type="text" placeholder="enter given name"
-				name="given" required="required" width="30">
+				name="given" th:text="${given}" required="required" width="30">
 		</div>
 		<div class="container">
 			<h3>Date of birth</h3>
