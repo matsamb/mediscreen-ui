@@ -68,10 +68,11 @@ body {
 	<div class="row">
 		<a href="/home"><button class="select" name="home">home</button></a> <a
 			href="/findpatient"><button class="select" name="find-patient">find
-				patient</button></a>
+				patient</button></a>  <a th:href="@{/savereport(patientId=${patient.patientId},family=${patient.family},given=${patient.given},dob=${patient.dob})}"><button class="select"
+				name="save-report">save report</button></a>
 				
 				 <a th:href="@{/findreport(patientId=${patient.patientId},family=${patient.family},given=${patient.given},dob=${patient.dob})}"><button class="select"
-				name="save-report">find report</button></a>
+				name="find-report">find report</button></a>
 		<!-- 		<a href="/savepatient"><button class="select"
 				name="save-patient">save patient</button></a><a href="/savereport"><button
 				class="select" name="save-report">save report</button></a>   -->
