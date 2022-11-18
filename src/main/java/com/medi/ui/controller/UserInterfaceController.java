@@ -4,6 +4,7 @@ import java.net.http.HttpResponse;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -28,6 +29,7 @@ import com.medi.ui.bean.PatientBeanView;
 import com.medi.ui.bean.ReportBean;
 import com.medi.ui.proxies.PatientProxy;
 import com.medi.ui.proxies.ReportProxy;
+import com.medi.ui.service.DiagnosisService;
 
 import feign.RequestTemplate;
 import feign.Response;
@@ -42,11 +44,17 @@ public class UserInterfaceController {
 
 	@Autowired
 	private final ReportProxy reportProxy;
+	
+	@Autowired 
+	private DiagnosisService diagnosysService;
 
 //	@Autowired
 //	private HttpResponse response;
 
-	UserInterfaceController(PatientProxy patientProxy, ReportProxy reportProxy) {
+	UserInterfaceController(PatientProxy patientProxy, ReportProxy reportProxy
+			, DiagnosisService diagnosysService
+			) {
+		this.diagnosysService = diagnosysService;
 		this.patientProxy = patientProxy;
 		this.reportProxy = reportProxy;
 	}
@@ -54,6 +62,12 @@ public class UserInterfaceController {
 	@GetMapping("/home")
 	public String getHome() {
 		log.info("getHome");
+		
+		Map<String, Integer> diagnosys = diagnosysService.status(patientProxy.findPatient("Mateson", "Mate").getBody()
+				, reportProxy.findReportByPatientId(1).getBody());
+		
+		log.info("diagnosys :"+diagnosys);
+		
 		return "home";
 	}
 
@@ -124,10 +138,13 @@ public class UserInterfaceController {
 			@RequestParam String given, @RequestParam String dob, Model model) {
 		log.info("deletepatient get " + family + " " + given);
 
-		model.addAttribute("family", family);
-		model.addAttribute("given", given);
-		model.addAttribute("dob", dob);
-		model.addAttribute("patientId", patientId);
+		ResponseEntity<PatientBean> patientResponse = patientProxy.findPatient(family, given);
+		PatientBean patientToDelete = patientResponse.getBody();
+		
+		model.addAttribute("family", patientToDelete.getFamily());
+		model.addAttribute("given", patientToDelete.getGiven());
+		model.addAttribute("dob", patientToDelete.getDob());
+		model.addAttribute("patientId", patientToDelete.getPatientId());
 
 		return "deletepatient";
 	}
@@ -136,14 +153,13 @@ public class UserInterfaceController {
 	public ModelAndView deletePatient(String patientId, String family, String given) {
 
 		log.info("deletepatient post");
-//		ResponseEntity<PatientBean> patientResponse = patientProxy.findPatient(family, given);
-//		PatientBean patientToDelete = patientResponse.getBody();
+		
 		Integer integerPatientId = Integer.parseInt(patientId);
 		ReportBean deleteAllReport = new ReportBean();
 		deleteAllReport.setId("deleteAll");
 		deleteAllReport.setComment("deletePatient");
-		reportProxy.deleteReportByPatientId(integerPatientId, deleteAllReport);
 		patientProxy.deletePatient(family, given);
+		reportProxy.deleteReportByPatientId(integerPatientId, deleteAllReport);
 		log.info("Patient " + family + " deleted");
 		return new ModelAndView("redirect:/save");
 	}

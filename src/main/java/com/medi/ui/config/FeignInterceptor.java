@@ -1,17 +1,17 @@
 package com.medi.ui.config;
 
 import org.aspectj.weaver.ast.Instanceof;
-/*import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;*/
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
-/*@Component
+@Component
 public class FeignInterceptor implements RequestInterceptor{
 
 	
@@ -38,4 +38,4 @@ public class FeignInterceptor implements RequestInterceptor{
 
 	
 	
-}*/
+}
