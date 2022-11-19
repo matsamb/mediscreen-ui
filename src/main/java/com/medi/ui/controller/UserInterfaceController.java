@@ -62,12 +62,12 @@ public class UserInterfaceController {
 	@GetMapping("/home")
 	public String getHome() {
 		log.info("getHome");
-		
+		/*
 		Map<String, Integer> diagnosys = diagnosysService.status(patientProxy.findPatient("Mateson", "Mate").getBody()
 				, reportProxy.findReportByPatientId(1).getBody());
 		
 		log.info("diagnosys :"+diagnosys);
-		
+		*/
 		return "home";
 	}
 
