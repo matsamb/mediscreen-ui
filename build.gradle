@@ -2,10 +2,12 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	id "com.github.spotbugs" version "5.0.13"
+	
 }
 //ui
 group = 'com.medi'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-snapshot'
 sourceCompatibility = '17'
 
 configurations {
@@ -40,10 +42,13 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	
+	testImplementation 'org.slf4j:slf4j-nop:2.0.3'
 	
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'io.projectreactor:reactor-test'
+	spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
 }
 
 dependencyManagement {
@@ -55,3 +60,17 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+spotbugs {
+	toolVersion = '4.7.3'
+	ignoreFailures = true
+	}
+	
+	spotbugsMain {
+		reports {
+			html {
+				required = true
+				outputLocation = file("$buildDir/build/site/spotbugs/main/spotbugs.html")
+			}
+		}
+	}
