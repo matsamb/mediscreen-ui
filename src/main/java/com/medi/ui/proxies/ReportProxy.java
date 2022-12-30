@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.medi.ui.bean.ReportBean;
 
 @Repository
-@FeignClient(name="historic", url="localhost:9002")
+@FeignClient(name="historic", url="${medconfigs.historicurl}")
 public interface ReportProxy {
 
 	@GetMapping("/report")

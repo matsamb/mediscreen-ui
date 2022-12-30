@@ -53,11 +53,11 @@ public class MediscreenRestController {
 
 	}*/
 
-	@GetMapping("/assess/{familyName}")
-	public ResponseEntity<String> getDiagnosysFamilyName(@PathVariable String familyName) {
-		log.info("/assess/" + familyName);
+	@GetMapping("/assess/{family}/{name}")
+	public ResponseEntity<String> getDiagnosysFamilyName(@PathVariable String family, @PathVariable String name) {
+		log.info("/assess/" + family + name);
 
-		PatientBean patient = patientProxy.findPatient(familyName, familyName).getBody();
+		PatientBean patient = patientProxy.findPatient(family,name).getBody();
 		List<ReportBean> report = reportProxy.findReportByPatientId(patient.getPatientId()).getBody();
 
 		Map<String, Integer> diagnosys = diagnosysService.status(patient, report);
@@ -65,7 +65,7 @@ public class MediscreenRestController {
 		log.info("diagnosys :" + diagnosys);
 		String status = diagnosys.keySet().stream().collect(Collectors.toList()).get(0);
 
-		return ResponseEntity.ok("Patient : " + familyName + " " + familyName + " (" + diagnosys.get(status)
+		return ResponseEntity.ok("Patient : " + family + " " + name + " (" + diagnosys.get(status)
 				+ ") diabetes assessment is: " + status);
 	}
 

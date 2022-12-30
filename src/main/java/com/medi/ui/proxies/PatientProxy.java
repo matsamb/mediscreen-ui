@@ -21,7 +21,7 @@ import feign.RequestTemplate;
 import feign.form.ContentType;
 
 @Repository
-@FeignClient(name="patient", url="localhost:9004")
+@FeignClient(name="patient", url="${medconfigs.patienturl}")
 public interface PatientProxy {
 	
 	@GetMapping("/patient")
