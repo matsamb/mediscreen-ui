@@ -26,7 +26,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
-public class DiagnosisService {
+public class DiagnosysService {
 
 	public Map<String, Integer> status(PatientBean patient, List<ReportBean> reportsList) {
 
@@ -50,7 +50,7 @@ public class DiagnosisService {
 		log.info("status map :" + dateOB.plusYears(30).compareTo(LocalDate.now()));
 		
 		//positive if less than thirty : 17years old -> 13 // 33years old -> -3
-		int lessThan30 = dateOB.plusYears(30).compareTo(LocalDate.now());
+		int positiveIfLessThan30 = dateOB.plusYears(30).compareTo(LocalDate.now());
 
 		Map<String, Integer> result = new HashMap<>();
 		
@@ -62,7 +62,7 @@ public class DiagnosisService {
 		
 		//Le dossier du patient contient deux déclencheurs et le patient est âgé de plus de 30 ans
 		
-		if (lessThan30 < 0 && triggerMapWithOccurences.entrySet().size() > 1) {
+		if (positiveIfLessThan30 < 0 && triggerMapWithOccurences.entrySet().size() > 1) {
 			log.info("status : Borderline");
 			result.put("Borderline",- dateOB.compareTo(LocalDate.now()));
 			return result;
@@ -73,9 +73,9 @@ public class DiagnosisService {
 		présents. Si le patient est une femme et a moins de 30 ans, il faudra quatre
 		termes déclencheurs. Si le patient a plus de 30 ans, alors il en faudra six.*/
 		
-		if(patient.getSex().contentEquals("M") && lessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 2 || 
-				patient.getSex().contentEquals("F") && lessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 3 ||
-				lessThan30 < 0 && triggerMapWithOccurences.entrySet().size() > 6) {
+		if(patient.getSex().contentEquals("M") && positiveIfLessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 2 || 
+				patient.getSex().contentEquals("F") && positiveIfLessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 3 ||
+				positiveIfLessThan30 < 0 && triggerMapWithOccurences.entrySet().size() > 6) {
 			log.info("status : in Danger");
 			result.put("in Danger", - dateOB.compareTo(LocalDate.now()));
 			return result;
@@ -86,9 +86,9 @@ public class DiagnosisService {
 		 * une femme et a moins de 30 ans, il faudra sept termes déclencheurs. Si le patient a 
 		 * plus de 30 ans, alors il en faudra huit ou plus*/
 		
-		if(patient.getSex().contentEquals("M") && lessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 4 || 
-				patient.getSex().contentEquals("F") && lessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 6 ||
-				lessThan30 < 0 && triggerMapWithOccurences.entrySet().size() > 7) {
+		if(patient.getSex().contentEquals("M") && positiveIfLessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 4 || 
+				patient.getSex().contentEquals("F") && positiveIfLessThan30 > 0 && triggerMapWithOccurences.entrySet().size() > 6 ||
+				positiveIfLessThan30 < 0 && triggerMapWithOccurences.entrySet().size() > 7) {
 			log.info("status : Early onset");
 			result.put("Early onset", dateOB.compareTo(LocalDate.now()));
 			return result;

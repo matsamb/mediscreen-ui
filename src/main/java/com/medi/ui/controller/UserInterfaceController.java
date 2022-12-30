@@ -29,7 +29,7 @@ import com.medi.ui.bean.PatientBeanView;
 import com.medi.ui.bean.ReportBean;
 import com.medi.ui.proxies.PatientProxy;
 import com.medi.ui.proxies.ReportProxy;
-import com.medi.ui.service.DiagnosisService;
+import com.medi.ui.service.DiagnosysService;
 
 import feign.RequestTemplate;
 import feign.Response;
@@ -46,13 +46,13 @@ public class UserInterfaceController {
 	private final ReportProxy reportProxy;
 	
 	@Autowired 
-	private DiagnosisService diagnosysService;
+	private DiagnosysService diagnosysService;
 
 //	@Autowired
 //	private HttpResponse response;
 
 	UserInterfaceController(PatientProxy patientProxy, ReportProxy reportProxy
-			, DiagnosisService diagnosysService
+			, DiagnosysService diagnosysService
 			) {
 		this.diagnosysService = diagnosysService;
 		this.patientProxy = patientProxy;
@@ -310,6 +310,8 @@ public class UserInterfaceController {
 		ReportBean reportBean = new ReportBean();
 		reportBean.setComment(report);
 		reportBean.setPatientId(patientId);
+		Date issueNow = new Date(System.currentTimeMillis());
+		reportBean.setDate(issueNow);
 
 		ReportBean reportBeanCreated = reportProxy.createReport(reportBean).getBody();
 		log.info(reportBeanCreated);

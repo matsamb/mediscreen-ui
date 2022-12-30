@@ -14,7 +14,7 @@ import com.medi.ui.bean.PatientBean;
 import com.medi.ui.bean.ReportBean;
 import com.medi.ui.proxies.PatientProxy;
 import com.medi.ui.proxies.ReportProxy;
-import com.medi.ui.service.DiagnosisService;
+import com.medi.ui.service.DiagnosysService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -29,9 +29,9 @@ public class MediscreenRestController {
 	private final ReportProxy reportProxy;
 
 	@Autowired
-	private DiagnosisService diagnosysService;
+	private DiagnosysService diagnosysService;
 
-	MediscreenRestController(PatientProxy patientProxy, ReportProxy reportProxy, DiagnosisService diagnosysService) {
+	MediscreenRestController(PatientProxy patientProxy, ReportProxy reportProxy, DiagnosysService diagnosysService) {
 		this.diagnosysService = diagnosysService;
 		this.patientProxy = patientProxy;
 		this.reportProxy = reportProxy;
@@ -53,11 +53,11 @@ public class MediscreenRestController {
 
 	}*/
 
-	@GetMapping("/assess/{familyName}")
-	public ResponseEntity<String> getDiagnosysFamilyName(@PathVariable String familyName) {
-		log.info("/assess/" + familyName);
+	@GetMapping("/assess/{family}/{name}")
+	public ResponseEntity<String> getDiagnosysFamilyName(@PathVariable String family, @PathVariable String name) {
+		log.info("/assess/" + family + name);
 
-		PatientBean patient = patientProxy.findPatient(familyName, familyName).getBody();
+		PatientBean patient = patientProxy.findPatient(family,name).getBody();
 		List<ReportBean> report = reportProxy.findReportByPatientId(patient.getPatientId()).getBody();
 
 		Map<String, Integer> diagnosys = diagnosysService.status(patient, report);
@@ -65,7 +65,7 @@ public class MediscreenRestController {
 		log.info("diagnosys :" + diagnosys);
 		String status = diagnosys.keySet().stream().collect(Collectors.toList()).get(0);
 
-		return ResponseEntity.ok("Patient : " + familyName + " " + familyName + " (" + diagnosys.get(status)
+		return ResponseEntity.ok("Patient : " + family + " " + name + " (" + diagnosys.get(status)
 				+ ") diabetes assessment is: " + status);
 	}
 
